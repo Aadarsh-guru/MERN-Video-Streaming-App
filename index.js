@@ -18,8 +18,8 @@ app.use('/api/v1/videos', videoRoutes)
 app.use(express.static('client/build'))
 Connection()
 
-// app.get('/*', (req, res) => {
-//     res.sendFile(path.resolve('./client/build/index.html'))
-// })
+app.get('/*', (req, res) => {
+    res.sendFile(path.resolve('./client/build/index.html'))
+})
 
 app.listen(port, () => { console.log(`server is running on port ${port}`); })

@@ -103,6 +103,7 @@ const UploadDialog = () => {
     const [video, setVideo] = useState('')
     const [thumbnail, setThumbnail] = useState('')
     const [loading, setLoading] = useState(false)
+    const [uploded, setUploded] = useState(0)
 
 
     const handleSubmit = async (e) => {
@@ -126,7 +127,11 @@ const UploadDialog = () => {
             formData.append('title', title)
             formData.append('description', description)
             setLoading(true)
-            const response = await axios.post('/api/v1/videos/upload', formData)
+            const response = await axios.post('/api/v1/videos/upload', formData, {
+                onUploadProgress: (data) => {
+                    setUploded(Math.round(data.progress * 100))
+                }
+            })
             response && setLoading(false)
             if (response.status === 201) {
                 toast.success(response.data.message)
@@ -207,7 +212,7 @@ const UploadDialog = () => {
                                     </VideoInfo>
                                 </Box>
                                 <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 5, color: 'gray' }}>
-                                    {loading && <Typography variant='h5' >Your Video is uploading..</Typography>}
+                                    {loading && <Typography variant='h5' >Your Video is uploading.. {uploded}%</Typography>}
                                 </Box>
                             </Box>
                             :
