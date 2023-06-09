@@ -131,13 +131,18 @@ export const userUpdateController = async (req, res) => {
                 return res.status(200).json({ message: 'profile pic size should be less than 1 mb.', success: false })
             }
         }
-        const hashedPassword = await bcrypt.hash(newPassword, 10)
+        let hashedPassword;
+        if (newPassword) {
+            hashedPassword = await bcrypt.hash(newPassword, 10)
+        } else {
+            hashedPassword = await bcrypt.hash(password, 10)
+        }
         if (req.file) {
             await User.findByIdAndUpdate(user?._id, {
                 firstName,
                 lastName,
                 email,
-                password: newPassword ? hashedPassword : password,
+                password: hashedPassword,
                 profile: req.file
             })
         } else {
@@ -145,7 +150,7 @@ export const userUpdateController = async (req, res) => {
                 firstName,
                 lastName,
                 email,
-                password: newPassword ? hashedPassword : password
+                password: hashedPassword
             })
         }
         return res.status(201).json({ message: 'User Updated Successfully.', success: true })
