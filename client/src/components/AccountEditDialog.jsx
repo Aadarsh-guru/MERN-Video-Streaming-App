@@ -139,7 +139,7 @@ const AccountEditDialog = () => {
             formData.append('lastName', lastName)
             formData.append('email', email)
             formData.append('password', password)
-            formData.append('newPassword', confirmPassword)
+            confirmPassword && formData.append('newPassword', confirmPassword)
             profile && formData.append('profile', profile)
             setLoading(true)
             const response = await axios.put('/api/v1/auth/update', formData)
