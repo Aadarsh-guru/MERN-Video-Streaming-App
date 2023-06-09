@@ -137,7 +137,7 @@ export const userUpdateController = async (req, res) => {
                 firstName,
                 lastName,
                 email,
-                password: hashedPassword,
+                password: newPassword ? hashedPassword : password,
                 profile: req.file
             })
         } else {
@@ -145,7 +145,7 @@ export const userUpdateController = async (req, res) => {
                 firstName,
                 lastName,
                 email,
-                password: hashedPassword
+                password: newPassword ? hashedPassword : password
             })
         }
         return res.status(201).json({ message: 'User Updated Successfully.', success: true })
