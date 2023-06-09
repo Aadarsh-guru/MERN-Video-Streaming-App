@@ -51,7 +51,7 @@ export const getVideoController = async (req, res) => {
     try {
         const file = await gfs.files.findOne({ filename: req.params.filename })
         if (!file) {
-            return res.status(500).send({ message: 'File Note Exist.' })
+            return res.status(500).send({ message: 'File Not Exist.' })
         }
         const range = req.headers.range;
         if (range && file?.contentType.includes('video')) {
